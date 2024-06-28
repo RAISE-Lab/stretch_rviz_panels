@@ -1,0 +1,9 @@
+<library path="lib/librobot_sound_control">
+  <class name="robot_sound_control/Sound"
+         type="robot_sound_control::Sound"
+         base_class_type="rviz::Panel">
+    <description>
+      Text for robot to repeat
+    </description>
+  </class>
+</library>

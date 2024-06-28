@@ -1,0 +1,9 @@
+<library path="lib/liborientation_visualizer">
+  <class name="Orientation"
+         type="orientation_visualizer::Orientation"
+         base_class_type="rviz::Panel">
+    <description>
+      A multi-image gridview panel widget to display various image feed in a 2x2 grid.
+    </description>
+  </class>
+</library>
