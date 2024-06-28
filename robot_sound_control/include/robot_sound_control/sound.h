@@ -29,6 +29,7 @@ namespace robot_sound_control
         QPushButton* itemishereButton;
         QPushButton* pleasewaitButton;
         QPushButton* nextitemButton;
+        QPushButton* helpmeButton;
         ros::NodeHandle nh_;
         ros::Publisher sound_pub_;
         void playSound(std::string s);
@@ -45,6 +46,7 @@ namespace robot_sound_control
             void onPleaseWaitButtonClicked();
             void onIWillFollowYouButtonClicked();
             void onNextItemButtonClicked();
+            void onPleaseHelpMeButtonClicked();
 
     private:
         // Optional: Add any additional helper methods or variables here

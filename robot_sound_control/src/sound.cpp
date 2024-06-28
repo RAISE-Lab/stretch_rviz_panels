@@ -69,6 +69,11 @@ Sound::Sound(QWidget *parent)
   layout->addWidget(itemishereButton);
   connect(itemishereButton, &QPushButton::clicked, this, &Sound::onItemIsHereButtonClicked);
 
+  QPushButton* helpmeButton = new QPushButton("Help me pick up", this);
+  layout->addWidget(helpmeButton);
+  connect(helpmeButton, &QPushButton::clicked, this, &Sound::onPleaseHelpMeButtonClicked);
+
+
   setLayout(layout);
 
   sound_pub_ = nh_.advertise<sound_play::SoundRequest>("robotsound", 1);
@@ -109,7 +114,6 @@ Sound::Sound(QWidget *parent)
       ROS_INFO("[TTS Message] %s", s.c_str());
       Sound::playSound(s);
   }
-
 
   void Sound::onRepeatButtonClicked() {
     std::string s = "Can you please repeat what you just said?";
@@ -152,6 +156,12 @@ Sound::Sound(QWidget *parent)
       ROS_INFO("[TTS Message] %s", s.c_str());
       Sound::playSound(s);
     }
+
+  void Sound::onPleaseHelpMeButtonClicked() {
+      std::string s = "Can you please help me pick up this item.";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
+    }  
 
   void Sound::onCommandButtonClicked(const QString &text) {
   	if (!text.isEmpty()) {
