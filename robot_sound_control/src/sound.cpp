@@ -41,22 +41,34 @@ Sound::Sound(QWidget *parent)
   layout->addWidget(noButton);
   connect(noButton, &QPushButton::clicked, this, &Sound::onNoButtonClicked);
 
-  QPushButton* repeatButton = new QPushButton("Repeat Question", this);
+  QPushButton* repeatButton = new QPushButton("Ask to Repeat", this);
   layout->addWidget(repeatButton);
   connect(repeatButton, &QPushButton::clicked, this, &Sound::onRepeatButtonClicked);
+
+  QPushButton* nextitemButton = new QPushButton("What is the next item?", this);
+  layout->addWidget(nextitemButton);
+  connect(nextitemButton, &QPushButton::clicked, this, &Sound::onNextItemButtonClicked);
 
   QPushButton* followmeButton = new QPushButton("Follow Me", this);
   layout->addWidget(followmeButton);
   connect(followmeButton, &QPushButton::clicked, this, &Sound::onFollowMeButtonClicked);
 
-  QPushButton* excusemeButton = new QPushButton("Excuse Me", this);
+  QPushButton* iwillfollowyouButton = new QPushButton("I will follow you", this);
+  layout->addWidget(iwillfollowyouButton);
+  connect(iwillfollowyouButton, &QPushButton::clicked, this, &Sound::onIWillFollowYouButtonClicked);
+
+  QPushButton* pleasewaitButton = new QPushButton("Please wait", this);
+  layout->addWidget(pleasewaitButton);
+  connect(pleasewaitButton, &QPushButton::clicked, this, &Sound::onPleaseWaitButtonClicked);
+  
+   QPushButton* excusemeButton = new QPushButton("Excuse Me, Please Move", this);
   layout->addWidget(excusemeButton);
   connect(excusemeButton, &QPushButton::clicked, this, &Sound::onExcuseMeButtonClicked);
 
   QPushButton* itemishereButton = new QPushButton("Item is here", this);
   layout->addWidget(itemishereButton);
   connect(itemishereButton, &QPushButton::clicked, this, &Sound::onItemIsHereButtonClicked);
-  
+
   setLayout(layout);
 
   sound_pub_ = nh_.advertise<sound_play::SoundRequest>("robotsound", 1);
@@ -66,8 +78,10 @@ Sound::Sound(QWidget *parent)
 
 
   void Sound::onNoButtonClicked() {
-    ROS_INFO("No button clicked");
+    // ROS_INFO("No button clicked");
     std::string s = "No";
+    ROS_INFO("[TTS Message] %s", s.c_str());
+    Sound::playSound(s);
     // std::string voice = "voice_cmu_us_slt_arctic_hts";
     // float volume = 1.0;
 
@@ -75,135 +89,68 @@ Sound::Sound(QWidget *parent)
     // ROS_INFO("Voice: %s", voice.c_str());
     // ROS_INFO("Volume: %f", volume);
 
-    if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-            sound_play::SoundRequest sound;
-            sound.sound = sound_play::SoundRequest::SAY;
-            sound.command = sound_play::SoundRequest::PLAY_ONCE;
-            sound.volume = volume;
-            sound.arg = s;
-            sound.arg2 = voice;
+    // if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
+    //         sound_play::SoundRequest sound;
+    //         sound.sound = sound_play::SoundRequest::SAY;
+    //         sound.command = sound_play::SoundRequest::PLAY_ONCE;
+    //         sound.volume = volume;
+    //         sound.arg = s;
+    //         sound.arg2 = voice;
 
-            sound_pub_.publish(sound);
-            // ROS_INFO("Sound message published.");
-        } else {
-            ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-        }
+    //         sound_pub_.publish(sound);
+    //         // ROS_INFO("Sound message published.");
+    //     } else {
+    //         ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
+    //     }
   }
 
   void Sound::onYesButtonClicked() {
-      ROS_INFO("Yes button clicked");
       std::string s = "Yes";
-    //   std::string voice = "voice_cmu_us_slt_arctic_hts";
-    //   float volume = 1.0;
-
-    //   ROS_INFO("Saying: %s", s.c_str());
-    //   ROS_INFO("Voice: %s", voice.c_str());
-    //   ROS_INFO("Volume: %f", volume);
-
-      if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-              sound_play::SoundRequest sound;
-              sound.sound = sound_play::SoundRequest::SAY;
-              sound.command = sound_play::SoundRequest::PLAY_ONCE;
-              sound.volume = volume;
-              sound.arg = s;
-              sound.arg2 = voice;
-
-              sound_pub_.publish(sound);
-            //   ROS_INFO("Sound message published.");
-          } else {
-              ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-          }
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
   }
 
 
   void Sound::onRepeatButtonClicked() {
-    ROS_INFO("Repeat button clicked");
-    std::string s = "Can you please repeat the question";
-    // std::string voice = "voice_cmu_us_slt_arctic_hts";
-    // float volume = 1.0;
-
-    // ROS_INFO("Saying: %s", s.c_str());
-    // ROS_INFO("Voice: %s", voice.c_str());
-    // ROS_INFO("Volume: %f", volume);
-
-    if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-            sound_play::SoundRequest sound;
-            sound.sound = sound_play::SoundRequest::SAY;
-            sound.command = sound_play::SoundRequest::PLAY_ONCE;
-            sound.volume = volume;
-            sound.arg = s;
-            sound.arg2 = voice;
-
-            sound_pub_.publish(sound);
-            // ROS_INFO("Sound message published.");
-        } else {
-            ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-        }
+    std::string s = "Can you please repeat what you just said?";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
   }
 
     void Sound::onFollowMeButtonClicked() {
-      ROS_INFO("Follow me button clicked");
-      std::string s = "Please follow me";
-    //   std::string voice = "voice_cmu_us_slt_arctic_hts"; //voice_us1_mbrola
-    //   float volume = 1.0;
-
-    //   ROS_INFO("Saying: %s", s.c_str());
-    //   ROS_INFO("Voice: %s", voice.c_str());
-    //   ROS_INFO("Volume: %f", volume);
-
-      if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-              sound_play::SoundRequest sound;
-              sound.sound = sound_play::SoundRequest::SAY;
-              sound.command = sound_play::SoundRequest::PLAY_ONCE;
-              sound.volume = volume;
-              sound.arg = s;
-              sound.arg2 = voice;
-
-              sound_pub_.publish(sound);
-            //   ROS_INFO("Sound message published.");
-          } else {
-              ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-          }
+      std::string s = "Please follow me.";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
     }
 
     void Sound::onExcuseMeButtonClicked() {
-      ROS_INFO("Excuse me button clicked");
       std::string s = "Excuse me, I would like to move where you are standing.";
-    //   std::string voice = "voice_cmu_us_slt_arctic_hts"; //voice_us1_mbrola
-    //   float volume = 1.0;
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
+    }
 
-      if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-              sound_play::SoundRequest sound;
-              sound.sound = sound_play::SoundRequest::SAY;
-              sound.command = sound_play::SoundRequest::PLAY_ONCE;
-              sound.volume = volume;
-              sound.arg = s;
-              sound.arg2 = voice;
-
-              sound_pub_.publish(sound);
-            //   ROS_INFO("Sound message published.");
-          } else {
-              ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-          }
+  void Sound::onNextItemButtonClicked() {
+      std::string s = "What is the next item on your shopping list?";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
     }
 
     void Sound::onItemIsHereButtonClicked() {
-      ROS_INFO("Excuse me button clicked");
       std::string s = "The item you are looking for is here.";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
+    }
 
-      if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
-              sound_play::SoundRequest sound;
-              sound.sound = sound_play::SoundRequest::SAY;
-              sound.command = sound_play::SoundRequest::PLAY_ONCE;
-              sound.volume = volume;
-              sound.arg = s;
-              sound.arg2 = voice;
+    void Sound::onPleaseWaitButtonClicked() {
+      std::string s = "Please wait.";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
+    }
 
-              sound_pub_.publish(sound);
-            //   ROS_INFO("Sound message published.");
-          } else {
-              ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
-          }
+  void Sound::onIWillFollowYouButtonClicked() {
+      std::string s = "I will follow you.";
+      ROS_INFO("[TTS Message] %s", s.c_str());
+      Sound::playSound(s);
     }
 
   void Sound::onCommandButtonClicked(const QString &text) {
@@ -212,7 +159,7 @@ Sound::Sound(QWidget *parent)
       	// std::string voice = "voice_cmu_us_slt_arctic_hts";
       	// float volume = 1.0;
 
-      	ROS_INFO("Speech received: %s", command.c_str());
+      	ROS_INFO("[TTS Message] %s", command.c_str());
       	sound_play::SoundRequest sound;
       	sound.sound = sound_play::SoundRequest::SAY;
       	sound.command = sound_play::SoundRequest::PLAY_ONCE;
@@ -221,8 +168,24 @@ Sound::Sound(QWidget *parent)
       	sound.arg2 = voice;
 
       	sound_pub_.publish(sound);
-      	ROS_INFO("Speech published as sound.");
+      	// ROS_INFO("Speech published as sound.");
   	}
+  }
+
+  void Sound::playSound(std::string s) {
+    if (sound_pub_ && sound_pub_.getNumSubscribers() > 0) {
+              sound_play::SoundRequest sound;
+              sound.sound = sound_play::SoundRequest::SAY;
+              sound.command = sound_play::SoundRequest::PLAY_ONCE;
+              sound.volume = volume;
+              sound.arg = s;
+              sound.arg2 = voice;
+
+              sound_pub_.publish(sound);
+            //   ROS_INFO("Sound message published.");
+          } else {
+              ROS_WARN("No subscribers found on the sound topic, not publishing sound.");
+          }
   }
 
 

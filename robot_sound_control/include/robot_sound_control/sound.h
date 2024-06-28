@@ -23,12 +23,15 @@ namespace robot_sound_control
         QPushButton* noButton_;
         QPushButton* repeatButton_;
         QPushButton* followmeButton_;
+        QPushButton* iwillfollowyouButton_;
         QPushButton* excusemeButton_;
         QPushButton* commandButton;
         QPushButton* itemishereButton;
+        QPushButton* pleasewaitButton;
+        QPushButton* nextitemButton;
         ros::NodeHandle nh_;
         ros::Publisher sound_pub_;
-
+        void playSound(std::string s);
 
 
     protected Q_SLOTS:
@@ -39,6 +42,9 @@ namespace robot_sound_control
             void onExcuseMeButtonClicked();
             void onCommandButtonClicked(const QString &text);
             void onItemIsHereButtonClicked();
+            void onPleaseWaitButtonClicked();
+            void onIWillFollowYouButtonClicked();
+            void onNextItemButtonClicked();
 
     private:
         // Optional: Add any additional helper methods or variables here
